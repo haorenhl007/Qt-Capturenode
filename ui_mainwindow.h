@@ -20,6 +20,7 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
@@ -42,11 +43,15 @@ public:
     QwtPlot *qwtPlot_mainwin;
     QWidget *layoutWidget;
     QVBoxLayout *verticalLayout;
+    QPushButton *btnProcess_2;
+    QPushButton *btnProcess;
     QPushButton *btnConnect;
     QPushButton *btnHistory;
-    QPushButton *btnCurve;
+    QPushButton *btnHelp;
     QWidget *layoutWidget1;
     QVBoxLayout *verticalLayout_2;
+    QPushButton *btnCurve;
+    QPushButton *btnAmplifer;
     QPushButton *btnDisconnect;
     QPushButton *btnSet;
     QPushButton *btnExit;
@@ -56,18 +61,22 @@ public:
     QLCDNumber *lcdNumber1;
     QLabel *label_no2;
     QLCDNumber *lcdNumber2;
+    QLabel *label_no2_2;
+    QSpinBox *spinBoxStart;
+    QLabel *label_no2_3;
+    QSpinBox *spinBoxStop;
     QMenuBar *menuBar;
     QMenu *menuCalls;
     QMenu *menuTools;
     QMenu *menuHelp;
-    QToolBar *mainToolBar;
     QStatusBar *statusBar;
+    QToolBar *mainToolBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(820, 460);
+        MainWindow->resize(1204, 768);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -127,20 +136,40 @@ public:
         centralWidget2->setObjectName(QStringLiteral("centralWidget2"));
         qwtPlot_mainwin = new QwtPlot(centralWidget2);
         qwtPlot_mainwin->setObjectName(QStringLiteral("qwtPlot_mainwin"));
-        qwtPlot_mainwin->setGeometry(QRect(10, 10, 691, 371));
+        qwtPlot_mainwin->setGeometry(QRect(10, 10, 1071, 671));
         layoutWidget = new QWidget(centralWidget2);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(710, 240, 46, 134));
+        layoutWidget->setGeometry(QRect(1090, 430, 46, 226));
         verticalLayout = new QVBoxLayout(layoutWidget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        btnConnect = new QPushButton(layoutWidget);
-        btnConnect->setObjectName(QStringLiteral("btnConnect"));
+        btnProcess_2 = new QPushButton(layoutWidget);
+        btnProcess_2->setObjectName(QStringLiteral("btnProcess_2"));
         QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(btnProcess_2->sizePolicy().hasHeightForWidth());
+        btnProcess_2->setSizePolicy(sizePolicy1);
+        btnProcess_2->setIcon(icon1);
+        btnProcess_2->setIconSize(QSize(32, 32));
+
+        verticalLayout->addWidget(btnProcess_2);
+
+        btnProcess = new QPushButton(layoutWidget);
+        btnProcess->setObjectName(QStringLiteral("btnProcess"));
+        sizePolicy1.setHeightForWidth(btnProcess->sizePolicy().hasHeightForWidth());
+        btnProcess->setSizePolicy(sizePolicy1);
+        QIcon icon7;
+        icon7.addFile(QStringLiteral("images/process.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        btnProcess->setIcon(icon7);
+        btnProcess->setIconSize(QSize(32, 32));
+
+        verticalLayout->addWidget(btnProcess);
+
+        btnConnect = new QPushButton(layoutWidget);
+        btnConnect->setObjectName(QStringLiteral("btnConnect"));
         sizePolicy1.setHeightForWidth(btnConnect->sizePolicy().hasHeightForWidth());
         btnConnect->setSizePolicy(sizePolicy1);
         btnConnect->setIcon(icon2);
@@ -152,30 +181,52 @@ public:
         btnHistory->setObjectName(QStringLiteral("btnHistory"));
         sizePolicy1.setHeightForWidth(btnHistory->sizePolicy().hasHeightForWidth());
         btnHistory->setSizePolicy(sizePolicy1);
-        QIcon icon7;
-        icon7.addFile(QStringLiteral(":/images/history.ico"), QSize(), QIcon::Normal, QIcon::Off);
-        btnHistory->setIcon(icon7);
+        QIcon icon8;
+        icon8.addFile(QStringLiteral(":/images/history.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        btnHistory->setIcon(icon8);
         btnHistory->setIconSize(QSize(32, 32));
 
         verticalLayout->addWidget(btnHistory);
 
-        btnCurve = new QPushButton(layoutWidget);
-        btnCurve->setObjectName(QStringLiteral("btnCurve"));
-        sizePolicy1.setHeightForWidth(btnCurve->sizePolicy().hasHeightForWidth());
-        btnCurve->setSizePolicy(sizePolicy1);
-        btnCurve->setIcon(icon1);
-        btnCurve->setIconSize(QSize(32, 32));
+        btnHelp = new QPushButton(layoutWidget);
+        btnHelp->setObjectName(QStringLiteral("btnHelp"));
+        sizePolicy1.setHeightForWidth(btnHelp->sizePolicy().hasHeightForWidth());
+        btnHelp->setSizePolicy(sizePolicy1);
+        btnHelp->setIcon(icon1);
+        btnHelp->setIconSize(QSize(32, 32));
 
-        verticalLayout->addWidget(btnCurve);
+        verticalLayout->addWidget(btnHelp);
 
         layoutWidget1 = new QWidget(centralWidget2);
         layoutWidget1->setObjectName(QStringLiteral("layoutWidget1"));
-        layoutWidget1->setGeometry(QRect(760, 240, 46, 134));
+        layoutWidget1->setGeometry(QRect(1150, 430, 46, 226));
         verticalLayout_2 = new QVBoxLayout(layoutWidget1);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
+        btnCurve = new QPushButton(layoutWidget1);
+        btnCurve->setObjectName(QStringLiteral("btnCurve"));
+        sizePolicy1.setHeightForWidth(btnCurve->sizePolicy().hasHeightForWidth());
+        btnCurve->setSizePolicy(sizePolicy1);
+        QIcon icon9;
+        icon9.addFile(QStringLiteral(":/images/chart.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        btnCurve->setIcon(icon9);
+        btnCurve->setIconSize(QSize(32, 32));
+
+        verticalLayout_2->addWidget(btnCurve);
+
+        btnAmplifer = new QPushButton(layoutWidget1);
+        btnAmplifer->setObjectName(QStringLiteral("btnAmplifer"));
+        sizePolicy1.setHeightForWidth(btnAmplifer->sizePolicy().hasHeightForWidth());
+        btnAmplifer->setSizePolicy(sizePolicy1);
+        QIcon icon10;
+        icon10.addFile(QStringLiteral(":/images/data.png"), QSize(), QIcon::Normal, QIcon::Off);
+        btnAmplifer->setIcon(icon10);
+        btnAmplifer->setIconSize(QSize(32, 32));
+
+        verticalLayout_2->addWidget(btnAmplifer);
+
         btnDisconnect = new QPushButton(layoutWidget1);
         btnDisconnect->setObjectName(QStringLiteral("btnDisconnect"));
         sizePolicy1.setHeightForWidth(btnDisconnect->sizePolicy().hasHeightForWidth());
@@ -205,7 +256,7 @@ public:
 
         layoutWidget2 = new QWidget(centralWidget2);
         layoutWidget2->setObjectName(QStringLiteral("layoutWidget2"));
-        layoutWidget2->setGeometry(QRect(710, 90, 101, 141));
+        layoutWidget2->setGeometry(QRect(1090, 10, 101, 271));
         verticalLayout_3 = new QVBoxLayout(layoutWidget2);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
@@ -244,10 +295,36 @@ public:
 
         verticalLayout_3->addWidget(lcdNumber2);
 
+        label_no2_2 = new QLabel(layoutWidget2);
+        label_no2_2->setObjectName(QStringLiteral("label_no2_2"));
+        sizePolicy.setHeightForWidth(label_no2_2->sizePolicy().hasHeightForWidth());
+        label_no2_2->setSizePolicy(sizePolicy);
+        label_no2_2->setAlignment(Qt::AlignCenter);
+
+        verticalLayout_3->addWidget(label_no2_2);
+
+        spinBoxStart = new QSpinBox(layoutWidget2);
+        spinBoxStart->setObjectName(QStringLiteral("spinBoxStart"));
+
+        verticalLayout_3->addWidget(spinBoxStart);
+
+        label_no2_3 = new QLabel(layoutWidget2);
+        label_no2_3->setObjectName(QStringLiteral("label_no2_3"));
+        sizePolicy.setHeightForWidth(label_no2_3->sizePolicy().hasHeightForWidth());
+        label_no2_3->setSizePolicy(sizePolicy);
+        label_no2_3->setAlignment(Qt::AlignCenter);
+
+        verticalLayout_3->addWidget(label_no2_3);
+
+        spinBoxStop = new QSpinBox(layoutWidget2);
+        spinBoxStop->setObjectName(QStringLiteral("spinBoxStop"));
+
+        verticalLayout_3->addWidget(spinBoxStop);
+
         MainWindow->setCentralWidget(centralWidget2);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 820, 23));
+        menuBar->setGeometry(QRect(0, 0, 1204, 23));
         menuCalls = new QMenu(menuBar);
         menuCalls->setObjectName(QStringLiteral("menuCalls"));
         menuTools = new QMenu(menuBar);
@@ -255,6 +332,9 @@ public:
         menuHelp = new QMenu(menuBar);
         menuHelp->setObjectName(QStringLiteral("menuHelp"));
         MainWindow->setMenuBar(menuBar);
+        statusBar = new QStatusBar(MainWindow);
+        statusBar->setObjectName(QStringLiteral("statusBar"));
+        MainWindow->setStatusBar(statusBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
         QFont font2;
@@ -264,9 +344,6 @@ public:
         font2.setWeight(50);
         mainToolBar->setFont(font2);
         MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
-        statusBar = new QStatusBar(MainWindow);
-        statusBar->setObjectName(QStringLiteral("statusBar"));
-        MainWindow->setStatusBar(statusBar);
 
         menuBar->addAction(menuCalls->menuAction());
         menuBar->addAction(menuTools->menuAction());
@@ -291,7 +368,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "\347\224\265\351\230\273\346\212\227\346\265\213\351\207\217\347\263\273\347\273\237", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "\346\225\260\346\215\256\351\207\207\351\233\206\347\263\273\347\273\237", 0));
         actionAbout->setText(QApplication::translate("MainWindow", "\345\205\263\344\272\216", 0));
 #ifndef QT_NO_TOOLTIP
         actionAbout->setToolTip(QApplication::translate("MainWindow", "\345\205\263\344\272\216\346\234\254\347\250\213\345\272\217", 0));
@@ -314,15 +391,21 @@ public:
         actionClear->setToolTip(QApplication::translate("MainWindow", "\346\270\205\351\231\244\346\216\245\346\224\266\345\214\272", 0));
 #endif // QT_NO_TOOLTIP
         actionQuit->setText(QApplication::translate("MainWindow", "\351\200\200\345\207\272", 0));
+        btnProcess_2->setText(QString());
+        btnProcess->setText(QString());
         btnConnect->setText(QString());
         btnHistory->setText(QString());
+        btnHelp->setText(QString());
+        btnHelp->setShortcut(QApplication::translate("MainWindow", "Ctrl+S", 0));
         btnCurve->setText(QString());
-        btnCurve->setShortcut(QApplication::translate("MainWindow", "Ctrl+S", 0));
+        btnAmplifer->setText(QString());
         btnDisconnect->setText(QString());
         btnSet->setText(QString());
         btnExit->setText(QString());
-        label_no1->setText(QApplication::translate("MainWindow", "\347\224\265\351\230\273\346\212\227", 0));
-        label_no2->setText(QApplication::translate("MainWindow", "\347\233\270\344\275\215", 0));
+        label_no1->setText(QApplication::translate("MainWindow", "\346\226\207\344\273\266\345\244\247\345\260\217\357\274\210KB\357\274\211", 0));
+        label_no2->setText(QApplication::translate("MainWindow", "\350\257\273\345\217\226\346\227\266\351\227\264\357\274\210S\357\274\211", 0));
+        label_no2_2->setText(QApplication::translate("MainWindow", "\350\265\267\345\247\213\345\234\260\345\235\200", 0));
+        label_no2_3->setText(QApplication::translate("MainWindow", "\347\273\223\346\235\237\345\234\260\345\235\200", 0));
         menuCalls->setTitle(QApplication::translate("MainWindow", "\345\212\250\344\275\234", 0));
         menuTools->setTitle(QApplication::translate("MainWindow", "\350\256\276\347\275\256", 0));
         menuHelp->setTitle(QApplication::translate("MainWindow", "\345\270\256\345\212\251", 0));

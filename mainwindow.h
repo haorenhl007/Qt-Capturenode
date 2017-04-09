@@ -146,6 +146,10 @@ private slots:
 
 //    void on_btnHelp_clicked();
 
+    void on_btnProcess_clicked();
+
+    void on_btnAmplifer_clicked();
+
 signals:
     void isReceiveData(void);
     void notifyhiswin(void);//测试信号，通知hismainwin的槽函数

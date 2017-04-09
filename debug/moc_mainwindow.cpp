@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[25];
-    char stringdata0[365];
+    QByteArrayData data[27];
+    char stringdata0[410];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -53,7 +53,9 @@ QT_MOC_LITERAL(20, 273, 14), // "processrevdata"
 QT_MOC_LITERAL(21, 288, 11), // "updatecurve"
 QT_MOC_LITERAL(22, 300, 21), // "on_btnConnect_clicked"
 QT_MOC_LITERAL(23, 322, 24), // "on_btnDisconnect_clicked"
-QT_MOC_LITERAL(24, 347, 17) // "on_btnSet_clicked"
+QT_MOC_LITERAL(24, 347, 17), // "on_btnSet_clicked"
+QT_MOC_LITERAL(25, 365, 21), // "on_btnProcess_clicked"
+QT_MOC_LITERAL(26, 387, 22) // "on_btnAmplifer_clicked"
 
     },
     "MainWindow\0isReceiveData\0\0notifyhiswin\0"
@@ -65,7 +67,8 @@ QT_MOC_LITERAL(24, 347, 17) // "on_btnSet_clicked"
     "on_btnCurve_clicked\0on_btnExit_clicked\0"
     "timeoutdisplay\0processrevdata\0updatecurve\0"
     "on_btnConnect_clicked\0on_btnDisconnect_clicked\0"
-    "on_btnSet_clicked"
+    "on_btnSet_clicked\0on_btnProcess_clicked\0"
+    "on_btnAmplifer_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -75,7 +78,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      20,   14, // methods
+      22,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -83,28 +86,30 @@ static const uint qt_meta_data_MainWindow[] = {
        4,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,  114,    2, 0x06 /* Public */,
-       3,    0,  115,    2, 0x06 /* Public */,
-       4,    0,  116,    2, 0x06 /* Public */,
-       5,    0,  117,    2, 0x06 /* Public */,
+       1,    0,  124,    2, 0x06 /* Public */,
+       3,    0,  125,    2, 0x06 /* Public */,
+       4,    0,  126,    2, 0x06 /* Public */,
+       5,    0,  127,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       6,    0,  118,    2, 0x08 /* Private */,
-       7,    0,  119,    2, 0x08 /* Private */,
-       8,    0,  120,    2, 0x08 /* Private */,
-       9,    1,  121,    2, 0x08 /* Private */,
-      11,    0,  124,    2, 0x08 /* Private */,
-      12,    0,  125,    2, 0x08 /* Private */,
-      13,    1,  126,    2, 0x08 /* Private */,
-      16,    0,  129,    2, 0x08 /* Private */,
-      17,    0,  130,    2, 0x08 /* Private */,
-      18,    0,  131,    2, 0x08 /* Private */,
-      19,    0,  132,    2, 0x08 /* Private */,
-      20,    0,  133,    2, 0x08 /* Private */,
-      21,    0,  134,    2, 0x08 /* Private */,
-      22,    0,  135,    2, 0x08 /* Private */,
-      23,    0,  136,    2, 0x08 /* Private */,
-      24,    0,  137,    2, 0x08 /* Private */,
+       6,    0,  128,    2, 0x08 /* Private */,
+       7,    0,  129,    2, 0x08 /* Private */,
+       8,    0,  130,    2, 0x08 /* Private */,
+       9,    1,  131,    2, 0x08 /* Private */,
+      11,    0,  134,    2, 0x08 /* Private */,
+      12,    0,  135,    2, 0x08 /* Private */,
+      13,    1,  136,    2, 0x08 /* Private */,
+      16,    0,  139,    2, 0x08 /* Private */,
+      17,    0,  140,    2, 0x08 /* Private */,
+      18,    0,  141,    2, 0x08 /* Private */,
+      19,    0,  142,    2, 0x08 /* Private */,
+      20,    0,  143,    2, 0x08 /* Private */,
+      21,    0,  144,    2, 0x08 /* Private */,
+      22,    0,  145,    2, 0x08 /* Private */,
+      23,    0,  146,    2, 0x08 /* Private */,
+      24,    0,  147,    2, 0x08 /* Private */,
+      25,    0,  148,    2, 0x08 /* Private */,
+      26,    0,  149,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
@@ -120,6 +125,8 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 14,   15,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -159,6 +166,8 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 17: _t->on_btnConnect_clicked(); break;
         case 18: _t->on_btnDisconnect_clicked(); break;
         case 19: _t->on_btnSet_clicked(); break;
+        case 20: _t->on_btnProcess_clicked(); break;
+        case 21: _t->on_btnAmplifer_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -220,13 +229,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 20)
+        if (_id < 22)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        _id -= 22;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 20)
+        if (_id < 22)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 20;
+        _id -= 22;
     }
     return _id;
 }

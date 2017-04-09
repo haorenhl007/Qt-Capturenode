@@ -79,10 +79,19 @@ void HisMainWin::on_btnCurve_his_clicked()//跳转至曲线图界面
 //以下为保存成excel数据代码，是否加入断开串口连接功能需要进一步考虑
 void HisMainWin::on_btnPrint_his_clicked()//此部分保存成excel语句耗时较大，可以考虑加入进度条
 {
+
+    QFile file("G:/liulong.txt");
+
+    QByteArray array;
+    QTime timeofwrite;
+
+    timeofwrite.start();
+    qDebug()<<timeofwrite.currentTime();
     QString filepath = QFileDialog::getSaveFileName(this, tr("Save File"),".",tr("Microsoft Office Excel (*.xls *.xlsx)"));
-    if(!filepath.isEmpty()){
+    if(!filepath.isEmpty() && file.open(QIODevice::ReadOnly))
+    {
         //界面弹出进度条
-        QProgressDialog dialog(tr("Excel数据保存进度"), tr("取消"), 0, model->rowCount(), this);
+        QProgressDialog dialog(tr("Excel数据保存进度"), tr("取消"), 0, file.size()/20, this);
         dialog.setWindowTitle(tr("进度条"));
         dialog.setWindowModality(Qt::WindowModal);
         dialog.show();
@@ -99,7 +108,9 @@ void HisMainWin::on_btnPrint_his_clicked()//此部分保存成excel语句耗时�
         QAxObject *worksheet = worksheets->querySubObject("Item(int)",1);//获取工作表集合的工作表1，即sheet1
         QAxObject *cell1,*cell2,*cell3,*cell4,*cell5,*cell6,*cell7,*cell8,*cell9,*cell10;
 
-        for(int i=0;i<model->rowCount();i++)
+        array = file.readAll();
+        qDebug()<<array.size();
+        for(int i=0;i<file.size()/20;i++)
         {
             //以下为进度条显示
             dialog.setValue(i);
@@ -118,7 +129,6 @@ void HisMainWin::on_btnPrint_his_clicked()//此部分保存成excel语句耗时�
             QString X9="I"+QString::number(i+1);
             QString X10="J"+QString::number(i+1);
 
-
             cell1 = worksheet->querySubObject("Range(QVariant, QVariant)",X1);//获取单元格
             cell2 = worksheet->querySubObject("Range(QVariant, QVariant)",X2);
             cell3 = worksheet->querySubObject("Range(QVariant, QVariant)",X3);//获取单元格
@@ -129,20 +139,8 @@ void HisMainWin::on_btnPrint_his_clicked()//此部分保存成excel语句耗时�
             cell8 = worksheet->querySubObject("Range(QVariant, QVariant)",X8);
             cell9 = worksheet->querySubObject("Range(QVariant, QVariant)",X9);//获取单元格
             cell10 = worksheet->querySubObject("Range(QVariant, QVariant)",X10);
-
-            cell1->dynamicCall("SetValue(const QVariant&)",QVariant(model->data(model->index(i,0))));//设置单元格的值
-            cell2->dynamicCall("SetValue(const QVariant&)",QVariant(model->data(model->index(i,1))));
-            cell3->dynamicCall("SetValue(const QVariant&)",QVariant(model->data(model->index(i,2))));//设置单元格的值
-            cell4->dynamicCall("SetValue(const QVariant&)",QVariant(model->data(model->index(i,3))));
-            cell5->dynamicCall("SetValue(const QVariant&)",QVariant(model->data(model->index(i,4))));//设置单元格的值
-            cell6->dynamicCall("SetValue(const QVariant&)",QVariant(model->data(model->index(i,5))));
-            cell7->dynamicCall("SetValue(const QVariant&)",QVariant(model->data(model->index(i,6))));//设置单元格的值
-            cell8->dynamicCall("SetValue(const QVariant&)",QVariant(model->data(model->index(i,7))));
-            cell9->dynamicCall("SetValue(const QVariant&)",QVariant(model->data(model->index(i,8))));//设置单元格的值
-            cell10->dynamicCall("SetValue(const QVariant&)",QVariant(model->data(model->index(i,9))));
-
         }
-        dialog.setValue(model->rowCount());//设置进度条为满值
+        dialog.setValue(file.size()/20);//设置进度条为满值
 
         workbook->dynamicCall("SaveAs(const QString&)",QDir::toNativeSeparators(filepath));//保存至filepath，注意一定要用QDir::toNativeSeparators将路径中的"/"转换为"\"，不然一定保存不了。
         workbook->dynamicCall("Close()");//关闭工作簿
@@ -150,6 +148,8 @@ void HisMainWin::on_btnPrint_his_clicked()//此部分保存成excel语句耗时�
         delete excel;
         excel=NULL;
     }
+    file.close();
+    qDebug()<<timeofwrite.currentTime();
 
 }
 
@@ -209,7 +209,7 @@ void HisMainWin::on_btnOpen_clicked()
 {
 
 
-    QFile file("H:/liulong.txt");
+    QFile file("G:/liulong.txt");
     QByteArray array;
 
     QSqlRecord record;
@@ -227,21 +227,23 @@ void HisMainWin::on_btnOpen_clicked()
     qDebug()<<file.size();
     if(file.open(QIODevice::ReadOnly))
     {
-        QProgressDialog dialog(tr("数据读取进度"), tr("取消"), 0, 5000, this);
+        QProgressDialog dialog(tr("数据读取进度"), tr("取消"), 0, file.size(), this);
         dialog.setWindowTitle(tr("进度条"));
         dialog.setWindowModality(Qt::WindowModal);
         dialog.show();
 
 
-        for(int i = 1; i<5000/20;i++)
+        for(int i = 1; i<file.size()/20;i++)
         {
             dialog.setValue(i);
+            qDebug()<<i;
             QCoreApplication::processEvents();
             if(dialog.wasCanceled())
                 break;
 
             file.seek(i*20);
             array = file.read(20);
+
 
             int a = (array.at(1)<<8) | array.at(0);
             f1.setValue(a);
@@ -266,6 +268,8 @@ void HisMainWin::on_btnOpen_clicked()
             f9.setValue(j);
             double k = (float)((array.at(19)<<8) | array.at(18));
             f10.setValue(k);
+
+
             record.append(f1);
             record.append(f2);
             record.append(f3);

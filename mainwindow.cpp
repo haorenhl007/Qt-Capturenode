@@ -40,6 +40,10 @@
 #include <QLabel>
 #include <QtSerialPort/QSerialPort>
 
+#include "QTime"
+#include "QDataStream"
+
+
 #define TIMELENGTH 300
 double times[TIMELENGTH];//坐标x轴数组
 double valofRe[TIMELENGTH];//节点1坐标y轴数组
@@ -76,7 +80,7 @@ MainWindow::MainWindow(QWidget *parent) :
     timer = new QTimer();
 //    time = new QTime();
     timer->setInterval(3000);
-    timer->start();
+//    timer->start();
 
     initActionsConnections();//设置menu菜单的各个按钮的响应槽函数
 
@@ -120,7 +124,7 @@ MainWindow::MainWindow(QWidget *parent) :
     p_grid->setMajorPen( Qt::black, 0, Qt::DotLine );
 
     //设置曲线
-    p_curve = new QwtPlotCurve( "电阻抗" );
+    p_curve = new QwtPlotCurve( "数据采集系统" );
     p_curve->setPen(Qt::blue,1);//设置曲线颜色 粗细
     p_curve->setRenderHint(QwtPlotItem::RenderAntialiased,true);//线条光滑化
     p_curve->setLegendAttribute(QwtPlotCurve::LegendShowLine);
@@ -194,6 +198,7 @@ void MainWindow::openSerialPort()
     connect(mainwin,&MainWindow::notifyhiswin,historywin,&HisMainWin::insAndupdatetblview);//建立串口notify信号和HisMainWin串口的tableview数据库槽函数连接
 //    connect(mainwin,&MainWindow::notifycurwin,curvewgt,&CurvWidget::insAndupdatecurve);//建立串口notify信号和curvewgt的曲线图的连接
     connect(mainwin,&MainWindow::notifywinUpdatecurv,mainwin,&MainWindow::updatecurve);//建立串口notify信号和mainwin上面的曲线图的连接
+
 }
 //关闭串口响应槽函数
 void MainWindow::closeSerialPort()
@@ -296,26 +301,28 @@ void MainWindow::processrevdata()//响应isReceiveData信号的处理数据槽�
     emit notifywinUpdatecurv();//通知mainwin更新曲线数据
 }
 static qint32 count;//串口接收到数据的计数器
+
 void MainWindow::updatecurve()
 {
-    volatile int i;
-    if(count == TIMELENGTH)
-    {
-        count = TIMELENGTH-1;
-        for (i = 0; i < TIMELENGTH;i++)
-        {
-            valofRe[i] = valofRe[i+1];//将曲线1的心率数据数组前移一位
-//            val2[i] = val2[i+1];//将曲线2的心率数据数组前移一位
-        }
-    }
-    valofRe[count] = mainwin->ReofRecv;//设置心率1的数据
-//    val2[count] = mainwin->dataReadBuffer[1].Heartdata;//设置心率2的数据
-    count++;
 
-    p_curve->setSamples(times,valofRe,count);
-//    p_curve->setSamples(time,val2,count);
+//    volatile int i;
+//    if(count == TIMELENGTH)
+//    {
+//        count = TIMELENGTH-1;
+//        for (i = 0; i < TIMELENGTH;i++)
+//        {
+//            valofRe[i] = valofRe[i+1];//将曲线1的心率数据数组前移一位
+////            val2[i] = val2[i+1];//将曲线2的心率数据数组前移一位
+//        }
+//    }
+//    valofRe[count] = mainwin->ReofRecv;//设置心率1的数据
+////    val2[count] = mainwin->dataReadBuffer[1].Heartdata;//设置心率2的数据
+//    count++;
 
-    ui->qwtPlot_mainwin->replot();//重绘数据
+//    p_curve->setSamples(times,valofRe,count);
+////    p_curve->setSamples(time,val2,count);
+
+//    ui->qwtPlot_mainwin->replot();//重绘数据
 }
 
 void MainWindow::timeoutdisplay()//超时检测槽函数
@@ -408,11 +415,15 @@ void MainWindow::on_btnHistory_clicked()
     this->hide();
     historywin->show();
 }
-
+//曲线显示函数
 void MainWindow::on_btnCurve_clicked()
 {
-//    this->hide();
-//    curvewgt->show();
+    qDebug()<<"hello";
+
+//    p_curve->setSamples(time,val2,count);
+
+//    ui->qwtPlot_mainwin->replot();//重绘数据
+
 }
 
 void MainWindow::on_btnExit_clicked()
@@ -455,7 +466,125 @@ void MainWindow::on_btnSet_clicked()
     this->btnConfigProcess();
 }
 
+void MainWindow::on_btnProcess_clicked()
+{
+    QString openfilepath = QFileDialog::getOpenFileName(this, tr("打开的文件是"),".",tr("Txt File (*.txt)"));
+    QFile openfile(openfilepath);
+    QString savefilepath = QFileDialog::getSaveFileName(this, tr("文件另存为"),"./demo.txt",tr("Txt File (*.txt)"));
+    if(savefilepath.isEmpty())
+        return;
+
+    QFile tofile(savefilepath);
+    tofile.open(QIODevice::WriteOnly | QIODevice::Truncate);
+
+    QTextStream out(&tofile);
+    QByteArray array;
+    short tempF;
+
+    QTime timeofwrite;
+    timeofwrite.start();
+    qDebug()<<timeofwrite.currentTime();
+
+    QProgressDialog dialog(tr("数据正在保存，请等待！"), tr("取消"), 0, openfile.size()/20, this);
+    dialog.setWindowTitle(tr("保存进度"));
+    dialog.setWindowModality(Qt::WindowModal);
+    dialog.show();
+
+
+
+    if(openfile.open(QIODevice::ReadOnly))
+    {
+
+        array = openfile.readAll();
+        qDebug()<<array.size();
+        ui->lcdNumber1->display((float)array.size()/1024);
+
+        showStatusMessage(tr("打开文件为%1,另存文件为:%2,大小为:%5字节")
+                          .arg(openfile.fileName()).arg(tofile.fileName()).arg(openfile.size()));
+
+
+
+        for(int i=0;i<openfile.size()/28;i++)
+        {
+            dialog.setValue(i);
+            QCoreApplication::processEvents();
+            if(dialog.wasCanceled())
+                break;
+            openfile.seek(i*28);
+
+            QVariant a = ((quint8)array.at(i*28+3))<<24 | ((quint8)array.at(i*28+2))<<16 | ((quint8)array.at(i*28+1))<<8 | (quint8)array.at(i*28+0);//实际接收到的数值
+
+            tempF = 0;
+            tempF |= ((array[i*28+5]<<8) & 0x0000FF00);
+            tempF |= ((array[i*28+4]) & 0x000000FF);
+            QVariant b = (float)(tempF)/32768*16;
+
+            tempF = 0;
+            tempF |= ((array[i*28+7]<<8) & 0x0000FF00);
+            tempF |= ((array[i*28+6]) & 0x000000FF);
+            QVariant c =  (float)(tempF)/32768*16;
+
+            tempF = 0;
+            tempF |= ((array[i*28+9]<<8) & 0x0000FF00);
+            tempF |= ((array[i*28+8]) & 0x000000FF);
+            QVariant d = (float)(tempF)/32768*16;
+
+            tempF = 0;
+            tempF |= ((array[i*28+13]<<8) & 0x0000FF00);
+            tempF |= ((array[i*28+12]) & 0x000000FF);
+            QVariant e = (float)(tempF)/32768*2000;
+
+            tempF = 0;
+            tempF |= ((array[i*28+15]<<8) & 0x0000FF00);
+            tempF |= ((array[i*28+14]) & 0x000000FF);
+            QVariant f = (float)(tempF)/32768*2000;
+
+            tempF = 0;
+            tempF |= ((array[i*28+17]<<8) & 0x0000FF00);
+            tempF |= ((array[i*28+16]) & 0x000000FF);
+            QVariant g = (float)(tempF)/32768*2000;
+
+            tempF = 0;
+            tempF |= ((array[i*28+21]<<8) & 0x0000FF00);
+            tempF |= ((array[i*28+20]) & 0x000000FF);
+            QVariant h = tempF;
+
+            tempF = 0;
+            tempF |= ((array[i*28+23]<<8) & 0x0000FF00);
+//            qDebug("tempF1 is %d",tempF);
+            tempF |= ((array[i*28+22]) & 0x000000FF);
+//            qDebug("tempF2 is %d",tempF);
+            QVariant j = tempF;
+
+            tempF = 0;
+            tempF |= ((array[i*28+25]<<8) & 0x0000FF00);
+            tempF |= ((array[i*28+24]) & 0x000000FF);
+            QVariant k = tempF;
+
+            out <<a.toString()<<","\
+                <<b.toString()<<","\
+                <<c.toString()<<","\
+                <<d.toString()<<","\
+                <<e.toString()<<","\
+                <<f.toString()<<","\
+                <<g.toString()<<","\
+                <<h.toString()<<","\
+                <<j.toString()<<","\
+                <<k.toString()<<endl;
+        }
+        ui->lcdNumber2->display((float)timeofwrite.elapsed()/1000);
+    }
+    openfile.close();
+    tofile.close();
+}
+
+
 //void MainWindow::on_btnHelp_clicked()
 //{
 
 //}
+
+void MainWindow::on_btnAmplifer_clicked()
+{
+
+}

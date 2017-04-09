@@ -13,5 +13,6 @@
         <file>images/return.png</file>
         <file>images/excel.ico</file>
         <file>images/open.ico</file>
+        <file>images/process.ico</file>
     </qresource>
 </RCC>

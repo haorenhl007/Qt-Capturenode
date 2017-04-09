@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>820</width>
-    <height>460</height>
+    <width>1204</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -28,7 +28,7 @@
    <bool>false</bool>
   </property>
   <property name="windowTitle">
-   <string>电阻抗测量系统</string>
+   <string>数据采集系统</string>
   </property>
   <property name="windowIcon">
    <iconset resource="terminal.qrc">
@@ -40,21 +40,67 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>691</width>
-      <height>371</height>
+      <width>1071</width>
+      <height>671</height>
      </rect>
     </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>240</y>
+      <x>1090</x>
+      <y>430</y>
       <width>46</width>
-      <height>134</height>
+      <height>226</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QPushButton" name="btnProcess_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="terminal.qrc">
+         <normaloff>:/images/help.ico</normaloff>:/images/help.ico</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnProcess">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>images/process.ico</normaloff>images/process.ico</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QPushButton" name="btnConnect">
        <property name="sizePolicy">
@@ -102,7 +148,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btnCurve">
+      <widget class="QPushButton" name="btnHelp">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -132,13 +178,59 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>240</y>
+      <x>1150</x>
+      <y>430</y>
       <width>46</width>
-      <height>134</height>
+      <height>226</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QPushButton" name="btnCurve">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="terminal.qrc">
+         <normaloff>:/images/chart.ico</normaloff>:/images/chart.ico</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnAmplifer">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="terminal.qrc">
+         <normaloff>:/images/data.png</normaloff>:/images/data.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QPushButton" name="btnDisconnect">
        <property name="sizePolicy">
@@ -213,10 +305,10 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>90</y>
+      <x>1090</x>
+      <y>10</y>
       <width>101</width>
-      <height>141</height>
+      <height>271</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -229,7 +321,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>电阻抗</string>
+        <string>文件大小（KB）</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -255,7 +347,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>相位</string>
+        <string>读取时间（S）</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -272,6 +364,44 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QLabel" name="label_no2_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>起始地址</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spinBoxStart"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_no2_3">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>结束地址</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spinBoxStop"/>
+     </item>
     </layout>
    </widget>
   </widget>
@@ -280,7 +410,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>820</width>
+     <width>1204</width>
      <height>23</height>
     </rect>
    </property>
@@ -311,6 +441,7 @@
    <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="mainToolBar">
    <property name="font">
     <font>
@@ -331,7 +462,6 @@
    <addaction name="actionConfigure"/>
    <addaction name="actionClear"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionAbout">
    <property name="icon">
     <iconset resource="terminal.qrc">
@@ -428,6 +558,7 @@
    <class>QwtPlot</class>
    <extends>QFrame</extends>
    <header>qwt_plot.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
